@@ -21,13 +21,16 @@ export default class ArticleCell extends React.PureComponent{
     _animateStyle() {
         let itemSelected = this.props.data.item.selected
         if(itemSelected && !this.selected){
+            this.selected = true
             return { opacity: 0.5 }
         }else if(!itemSelected && this.selected){
             let anim = new Animated.Value(0.5)
-            Animated.timing(anim, {toValue: 1.0},).start();
+            Animated.timing(anim, {toValue: 1.0, duration: 100},).start();
             this.selected = false
             return { opacity: anim }
         }
+
+        return null
     }
 
     render() {
