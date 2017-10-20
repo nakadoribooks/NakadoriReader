@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import ArticleList from './ArticleListViewController';
-import {
-  NavigatorIOS,
-} from 'react-native';
-
-var QIITA_URL = "https://qiita.com/api/v2/tags/reactjs/items";
+import { NavigatorIOS} from 'react-native';
 
 export default class App extends Component {
 

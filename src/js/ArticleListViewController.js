@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  FlatList,
-  View,
-  ActivityIndicator,
-  NavigatorIOS
-} from 'react-native';
+import { StyleSheet, FlatList, View, ActivityIndicator, NavigatorIOS} from 'react-native';
 import Article from './Article';
 import ArticleCell from './ArticleCell';
 import ArticleDetailViewController from './ArticleDetailViewController';
@@ -24,18 +18,8 @@ export default class ArticleListViewController extends React.Component {
         }
     }
 
-     // 今回のこれ！
-     _deselectView(){
-        let articleList = this.state.articleList
-        for(let i = 0, to = articleList.length; i<to; i++){
-            let article = articleList[i]
-            article.selected = false
-        }
-        this._reloadListView()
-    }
-
     componentDidMount(){
-        this.fetchData()
+        this._fetchData()
     }
 
     render() {
@@ -44,7 +28,6 @@ export default class ArticleListViewController extends React.Component {
                 <FlatList
                     data={this.state.articleList}
                     extraData={this.state.reloadCount}
-                    enableEmptySections={true}
                     keyExtractor={item => item.link}
                     renderItem={(data) => {
                         return <ArticleCell 
@@ -60,6 +43,16 @@ export default class ArticleListViewController extends React.Component {
                 }
             </View>
         )
+    }
+
+    // 選択状態解除
+    _deselectView(){
+        let articleList = this.state.articleList
+        for(let i = 0, to = articleList.length; i<to; i++){
+            let article = articleList[i]
+            article.selected = false
+        }
+        this._reloadListView()
     }
 
     // reloadData
@@ -79,6 +72,8 @@ export default class ArticleListViewController extends React.Component {
         this.props.navigator.push({
             title: article.title,
             component: ArticleDetailViewController,
+
+            // viewWillAppear的な。画面戻って来ました。
             passProps: { article: article, onBack:()=>{
                 this._deselectView()
             } }
@@ -86,7 +81,7 @@ export default class ArticleListViewController extends React.Component {
     }
 
     // RSS 取ってくる
-    fetchData(){
+    _fetchData(){
         this.setState({
             loading: true
         })
